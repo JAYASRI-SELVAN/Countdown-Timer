@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Countdown Timer</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+    }
+
+    .timer {
+      margin-top: 20px;
+    }
+
+    button {
+      margin-top: 10px;
+      padding: 5px 10px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <h1>Countdown Timer</h1>
+  <div class="timer">
+    <input type="number" id="minutes" placeholder="Enter minutes">
+    <span>:</span>
+    <input type="number" id="seconds" placeholder="Enter seconds">
+    <button onclick="startTimer()">Start</button>
+    <button onclick="stopTimer()">Stop</button>
+    <button onclick="resetTimer()">Reset</button>
+  </div>
+  <div id="display"></div>
+
+  <script>
+    let timer;
+    let totalSeconds;
+
+    function startTimer() {
+      const minutes = parseInt(document.getElementById("minutes").value);
+      const seconds = parseInt(document.getElementById("seconds").value);
+      if (isNaN(minutes) || isNaN(seconds)) {
+        alert("Please enter valid minutes and seconds.");
+        return;
+      }
+
+      totalSeconds = minutes * 60 + seconds;
+      clearInterval(timer);
+      timer = setInterval(updateTimer, 1000);
+    }
+
+    function updateTimer() {
+      if (totalSeconds <= 0) {
+        clearInterval(timer);
+        document.getElementById("display").innerText = "Time's up!";
+        return;
+      }
+
+      const minutes = Math.floor(totalSeconds / 60);
+      let seconds = totalSeconds % 60;
+      seconds = seconds < 10 ? "0" + seconds : seconds;
+      document.getElementById("display").innerText = `${minutes}:${seconds}`;
+      totalSeconds--;
+    }
+
+    function stopTimer() {
+      clearInterval(timer);
+    }
+
+    function resetTimer() {
+      clearInterval(timer);
+      document.getElementById("minutes").value = "";
+      document.getElementById("seconds").value = "";
+      document.getElementById("display").innerText = "";
+    }
+  </script>
+</body>
+</html>
